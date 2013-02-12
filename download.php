@@ -166,7 +166,16 @@ else {
 			$name = urlencode($name);
 			$name = str_replace("+", "_", $name);
 		}
-
+		
+		//begin download fix
+		//if you have problem with downloading large files 
+		//readfile function doesn't like output buffering bellow
+                if ( ob_get_length() ) {
+                    @ob_end_clean();
+                }                
+                @ob_end_flush();
+                //end download fix
+                
 		header("Pragma: public");
 		header("Cache-Control: maxage=1, post-check=0, pre-check=0");
 		if(isset($_REQUEST['isTempFile']) && ($_REQUEST['type']=="SugarFieldImage")) {
